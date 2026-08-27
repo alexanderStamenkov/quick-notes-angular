@@ -1,0 +1,113 @@
+<div class="page">
+  <header class="header">
+    <div class="header__content">
+      <div>
+        <span class="header__label">MY NOTES</span>
+        <h1>Quick Notes</h1>
+        <p>Keep your thoughts in one place.</p>
+      </div>
+
+      <div class="header__count">
+        <span>Notes</span>
+        <strong>{{ notes().length }}</strong>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="create-note">
+      <div class="section-title">
+        <div>
+          <span class="section-title__label">CREATE</span>
+          <h2>New note</h2>
+        </div>
+      </div>
+
+      <form class="note-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="title">Title</label>
+
+          <input id="title" type="text" placeholder="Enter note title..." formControlName="title" />
+        </div>
+
+        <div class="form-group">
+          <label for="content">Content</label>
+
+          <textarea
+            id="content"
+            rows="5"
+            placeholder="Write something..."
+            formControlName="content"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--primary">Add note</button>
+      </form>
+    </section>
+
+    <section class="notes-section">
+      @if (notes().length === 0) {
+        <div class="section-title">
+          <div>
+            <span class="section-title__label">YOUR NOTES</span>
+            <h2>All notes</h2>
+          </div>
+        </div>
+
+        <!-- Empty state -->
+        <div class="empty-state">
+          <div class="empty-state__icon">+</div>
+
+          <h3>No notes yet</h3>
+
+          <p>Create your first note using the form above.</p>
+        </div>
+      } @else {
+        @for (note of notes(); track note.id) {
+          <article class="note-card">
+            <div class="note-card__content">
+              <span class="note-card__date"> {{ note.createdAt | date: 'd MMM y' }} </span>
+
+              <h3>{{ note.title }}</h3>
+
+              <p>{{ note.content }}</p>
+            </div>
+
+            <button class="note-card__delete" (click)="openDeleteModal(note.id)">Delete</button>
+          </article>
+        }
+      }
+    </section>
+  </main>
+  @if (showDeleteModal()) {
+    <div class="modal-backdrop" (click)="closeDeleteModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal__content">
+          <div class="modal__icon">!</div>
+
+          <h3>Sorry but</h3>
+
+          <p>Are you sure you want to delete the note?</p>
+
+          <div class="modal__actions">
+            <button
+              type="button"
+              class="modal__button modal__button--no"
+              (click)="closeDeleteModal()"
+            >
+              No
+            </button>
+
+            <button
+              type="button"
+              class="modal__button modal__button--yes"
+              (click)="confirmDelete()"
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
