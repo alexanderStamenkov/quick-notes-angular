@@ -1,59 +1,33 @@
-# QuickNotes
+# Quick Notes
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.19.
+Малко Angular practice приложение за бележки — CRUD (create, read, delete) с реален mock backend (`json-server`), reactive forms, и signal-based state management.
 
-## Development server
+## Стек
 
-To start a local development server, run:
+- Angular 21 (standalone components, signals)
+- Reactive Forms
+- `json-server` — mock REST API за локална разработка
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Setup
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Пусни **два** отделни терминала:
 
 ```bash
-ng generate --help
+npm start     # Angular dev server, http://localhost:4200
+npm run api   # json-server, http://localhost:3000
 ```
 
-## Building
+## Какво прави
 
-To build the project run:
+- Списък с бележки (title + content), fetch-нат от mock API.
+- Добавяне на нова бележка чрез reactive form.
+- Изтриване на бележка, с confirmation modal.
+- Целият state (списък с notes) се управлява централно в `NoteService`, чрез Angular signals — компонентът просто чете `noteService.allNote`, без да дублира state локално.
 
-```bash
-ng build
-```
+## Бележка
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Данните се пазят в `db.json` и се ресетват при рестарт на `json-server` (няма истинска база данни — това е learning/practice проект, не production приложение).
