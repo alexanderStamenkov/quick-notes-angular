@@ -5,6 +5,11 @@
       "title": "First note",
       "content": "This is my first note.",
       "createdAt": "2026-08-24T18:30:00.000Z"
+    },
+    {
+      "title": "test23",
+      "content": "23",
+      "id": "FFsR9YIky68"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
