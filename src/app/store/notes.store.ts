@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
-import { pipe, switchMap, tap } from 'rxjs';
+import { concatMap, exhaustMap, pipe, switchMap, tap } from 'rxjs';
 import { CreateNote, Note } from '../models/note.model';
 
 type NotesState = {
@@ -48,7 +48,7 @@ export const NotesStore = signalStore(
     addNote: rxMethod<CreateNote>(
       pipe(
         tap(() => patchState(store, { isAdding: true })),
-        switchMap((note) =>
+        exhaustMap((note) =>
           http.post<Note>('http://localhost:3000/notes', note).pipe(
             tapResponse({
               next: (newNote) => {
@@ -71,7 +71,7 @@ export const NotesStore = signalStore(
 
     deleteNote: rxMethod<number>(
       pipe(
-        switchMap((id) =>
+        concatMap((id) =>
           http.delete<void>(`http://localhost:3000/notes/${id}`).pipe(
             tapResponse({
               next: () => {
@@ -89,3 +89,7 @@ export const NotesStore = signalStore(
     ),
   })),
 );
+
+// switchMap	Отменя старата, интересува те само последната (search-as-you-type)
+// concatMap	Опашка — изчаква старата да завърши, после праща новата, по ред
+// exhaustMap	Игнорира новата, докато старата "тече" (не позволява duplicate)

@@ -7,9 +7,9 @@
       "createdAt": "2026-08-24T18:30:00.000Z"
     },
     {
-      "title": "test23",
-      "content": "23",
-      "id": "FFsR9YIky68"
+      "title": "Test",
+      "content": "Tested OK",
+      "id": "eOxDsMt8LGs"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
